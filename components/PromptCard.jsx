@@ -31,7 +31,7 @@ const PromptCard = ({ prompt, handleTagClick, handleEdit, handleDelete }) => {
                 <div className="flex-1 flex flex-wrap sm:flex-nowrap justify-start items-center gap-3 cursor-pointer max-w-60" onClick={handleProfileClick}>
                     <Image
                         className="rounded-full object-contain"
-                        src={prompt.creator.image}
+                        src={prompt.creator.image && prompt.creator.image != "" ? prompt.creator.image : "/assets/icons/placeholder.png"}
                         alt="userimage"
                         width={40}
                         height={40}

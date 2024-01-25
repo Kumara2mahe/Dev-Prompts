@@ -36,7 +36,7 @@ const Navbar = () => {
                             <Link className="black_btn" href={createPromptPath}>Create Prompt</Link>
                             <button className="outline_btn" type="button" onClick={() => signOut({ callbackUrl: homePath })}>Sign Out</button>
                             <Link href={profilePath}>
-                                <Image className="rounded-full" src={session.user.image} alt="profile" width={38} height={38} />
+                                <Image className="rounded-full" src={session.user.image && session.user.image != "" ? session.user.image : "/assets/icons/placeholder.png"} alt="profile" width={38} height={38} />
                             </Link>
                         </div>
                     ) : <ProviderButtons />
@@ -48,7 +48,7 @@ const Navbar = () => {
                     ? (
                         <div className="flex">
                             <Image
-                                className="rounded-full" src={session.user.image} alt="profile" width={38} height={38}
+                                className="rounded-full" src={session.user.image && session.user.image != "" ? session.user.image : "/assets/icons/placeholder.png"} alt="profile" width={38} height={38}
                                 onClick={() => setDropDownOpened(prev => !prev)}
                             />
                             {dropDownOpened && (
