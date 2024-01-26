@@ -20,9 +20,7 @@ const Navbar = () => {
     }, [])
 
     const ProviderButtons = () => (
-        providers && Object.values(providers).map((provider) => (
-            <button className="black_btn" type="button" key={provider.name} onClick={() => signIn(provider.id)}>Sign In</button>
-        ))
+        providers && <button className="black_btn" type="button" onClick={() => signIn()}>Sign In</button>
     )
     return (
         <div className="flex-between w-full mb-16 pt-6">

@@ -2,7 +2,7 @@
 
 *Platform that serves as a hub for exchanging AI prompts in a format similar to blog posts.*
 
-![image](https://drive.google.com/uc?export=view&id=1DUTuRvZ_rp7oLUjbb0K2JM_F9Gp0yJhq)
+[![image](https://drive.google.com/uc?export=view&id=1DUTuRvZ_rp7oLUjbb0K2JM_F9Gp0yJhq)](https://devprompts-nextjs.vercel.app/)
 
 ## Tech Stack
 
@@ -27,7 +27,7 @@
 
 - **Search Prompts by Specific Tag**: Allow users to search for prompts based on specific tags, making it easier to find prompts related to specific topics.
 
-- **Google Authentication using NextAuth**: Enable secure Google authentication using NextAuth, ensuring a streamlined and trustworthy login experience.
+- **OAuth Authentication using NextAuth**: Enable secure OAuth authentication using NextAuth with Google & Github accounts, ensuring a streamlined and trustworthy login experience.
 
 - **Responsive Website**: Develop a fully responsive website to ensure optimal user experience across various devices, from desktops to smartphones
 
@@ -74,6 +74,8 @@ NEXTAUTH_SECRET="<random-secret-string>"
 # OAuth2
 GOOGLE_CLIENT_ID="<google-client-id>"
 GOOGLE_CLIENT_SECRET="<google-client-secret>"
+GITHUB_ID="<github-client-id>"
+GITHUB_SECRET="<github-client-secret>"
 ```
 
 Replace the placeholder values with your actual credentials.

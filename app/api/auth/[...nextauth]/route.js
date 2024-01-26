@@ -1,5 +1,6 @@
 import NextAuth from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
+import GithubProvider from "next-auth/providers/github"
 
 import { connectToDB } from "@utils/database"
 import User from "@models/user"
@@ -9,6 +10,10 @@ const handler = NextAuth({
         GoogleProvider({
             clientId: process.env.GOOGLE_CLIENT_ID,
             clientSecret: process.env.GOOGLE_CLIENT_SECRET
+        }),
+        GithubProvider({
+            clientId: process.env.GITHUB_ID,
+            clientSecret: process.env.GITHUB_SECRET,
         }),
     ],
     callbacks: {
@@ -24,24 +29,36 @@ const handler = NextAuth({
             }
             return session
         },
-        async signIn({ profile }) {
+        async signIn({ account, profile }) {
             try {
                 await connectToDB()
                 const user = await User.findOne({
                     email: profile.email
                 })
-
-                if (!user) {
-                    await User.create({
+                let authenticated = false, details = null
+                if (account.provider === "google") {
+                    details = {
                         email: profile.email,
                         name: profile.name.replace(/\s+/g, " ").trim(),
                         image: profile.picture
-                    })
+                    }
                 }
-                return true
+                else if (account.provider === "github") {
+                    details = {
+                        email: profile.email,
+                        name: profile.login.replace(/\s+/g, " ").trim(),
+                        image: profile.avatar_url
+                    }
+                }
+                if (!user && details) {
+                    await User.create(details)
+                    authenticated = true
+                }
+                return authenticated
             }
             catch (error) {
-                return false
+                console.log(error)
+                return "/unauthorized"
             }
         },
     }
