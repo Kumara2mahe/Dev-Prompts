@@ -35,7 +35,7 @@ const handler = NextAuth({
                 const user = await User.findOne({
                     email: profile.email
                 })
-                let authenticated = false, details = null
+                let details = null
                 if (account.provider === "google") {
                     details = {
                         email: profile.email,
@@ -50,14 +50,13 @@ const handler = NextAuth({
                         image: profile.avatar_url
                     }
                 }
-                if (!user && details) {
-                    await User.create(details)
-                    authenticated = true
+                if (details) {
+                    !user && await User.create(details)
+                    return true // authenticated
                 }
-                return authenticated
+                return false
             }
             catch (error) {
-                console.log(error)
                 return "/unauthorized"
             }
         },
