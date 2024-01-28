@@ -1,3 +1,4 @@
+import { Suspense } from "react"
 import Feed from "@components/Feed"
 
 const Home = () => {
@@ -7,7 +8,9 @@ const Home = () => {
                 <span className="greeny_blue_gradient text-center">AI Generated Prompts</span>
             </h1>
             <p className="desc text-center">Dev-Prompts is an open-source AI prompting tool for modern world to discover, create and share creative prompts.</p>
-            <Feed />
+            <Suspense>
+                <Feed />
+            </Suspense>
         </section>
     )
 }

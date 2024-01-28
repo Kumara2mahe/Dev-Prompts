@@ -1,6 +1,8 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
+import { useSearchParams } from "next/navigation"
+
 import PromptCardList from "./PromptCardList"
 
 const Feed = () => {
@@ -21,6 +23,17 @@ const Feed = () => {
             setPrompts(null)
         })()
     }, [])
+
+    // Filter prompts by searchquery
+    const emptyPrompt = useRef(null)
+    const searchParams = useSearchParams()
+    const qTag = searchParams.get("qTag")
+    useEffect(() => {
+        if (emptyPrompt.current === null && prompts.length > 0) {
+            emptyPrompt.current = prompts.length
+            qTag && setTimeout(() => handleTagClick(qTag), 500)
+        }
+    }, [prompts])
 
     const handleSearchChange = (e) => {
         clearTimeout(searchTimeout)
