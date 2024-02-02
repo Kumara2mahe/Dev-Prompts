@@ -54,10 +54,10 @@ const handler = NextAuth({
                     !user && await User.create(details)
                     return true // authenticated
                 }
-                return false
+                return "/?error=authinvalid"
             }
             catch (error) {
-                return "/unauthorized"
+                return "/?error=authfailed"
             }
         },
     }
