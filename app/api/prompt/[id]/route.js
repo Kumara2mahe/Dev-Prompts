@@ -37,7 +37,7 @@ export const PATCH = async (req, { params }) => {
 }
 
 export const DELETE = async (req, { params }) => {
-    const { userId } = await req.json()
+    const { userId, confirmation } = await req.json()
     try {
         await connectToDB()
         const prompt = await Prompt.findById(params.id)
@@ -46,6 +46,9 @@ export const DELETE = async (req, { params }) => {
         }
         else if (prompt.creator._id.toString() !== userId) {
             return new Response("Failed to delete prompt, only creator can perform such operation.", { status: 400 })
+        }
+        else if (confirmation !== "delete prompt") {
+            return new Response("Entered phrase should match with the displayed phrase!", { status: 400 })
         }
         await Prompt.findByIdAndDelete(prompt._id)
         return new Response("Prompt deleted!", { status: 200 })

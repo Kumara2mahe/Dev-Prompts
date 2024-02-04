@@ -12,7 +12,7 @@ const PromptCardList = ({ data, handleTagClick, handleEdit, handleDelete }) => {
                         prompt={prompt}
                         handleTagClick={() => handleTagClick && handleTagClick(prompt.tag)}
                         handleEdit={() => handleEdit && handleEdit(prompt)}
-                        handleDelete={() => handleDelete && handleDelete(prompt)}
+                        handleDelete={e => handleDelete && handleDelete(e, prompt)}
                     />
                 ))
                 }

@@ -18,6 +18,14 @@
     @apply rounded-full border border-black bg-transparent py-1.5 px-5 text-black transition-all hover:bg-black hover:text-white text-center text-sm font-inter flex items-center justify-center;
 }
 
+.gray_outline_btn {
+    @apply rounded-full border border-gray-400 bg-transparent py-1.5 px-5 text-gray-600 transition-all hover:bg-gray-400 hover:text-white text-center text-sm font-inter flex items-center justify-center;
+}
+
+.red_outline_btn {
+    @apply rounded-full border border-red-400 disabled:border-red-200 bg-transparent py-1.5 px-5 text-red-600 disabled:text-red-300 transition-all disabled:cursor-not-allowed hover:bg-red-400 disabled:hover:bg-transparent hover:text-white text-center text-sm font-inter flex items-center justify-center;
+}
+
 .head_text {
     @apply mt-5 text-5xl font-extrabold leading-[1.15] text-black sm:text-6xl;
 }
@@ -126,6 +134,10 @@
     @apply w-full flex rounded-lg mt-2 p-3 text-sm text-gray-500 outline-0;
 }
 
+.form_delete_input {
+    @apply font-semibold text-gray-600 mt-6 mb-8 border-gray-200 border focus:border-purple-300;
+}
+
 /* Nav Component */
 .logo_text {
     @apply max-sm:hidden font-satoshi font-semibold text-lg text-black tracking-wide;
@@ -142,6 +154,11 @@
 /* PromptCard Component */
 .prompt_card {
     @apply flex-1 break-inside-avoid rounded-lg border border-gray-300 bg-white/20 bg-clip-padding p-6 pb-4 backdrop-blur-lg backdrop-filter md:w-[360px] w-full h-fit select-none;
+}
+
+/* Dialog Component */
+.popup_dialog {
+    @apply w-5/6 md:w-1/3 max-w-md p-0 border-none rounded-xl
 }
 
 .flex-center {
