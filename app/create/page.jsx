@@ -5,7 +5,7 @@ import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 
 import Form from "@components/Form"
-import { TOASTTYPE_ERROR, TOASTTYPE_SUCCESS, homePath } from "@utils/constants"
+import { TOASTTYPE_ERROR, TOASTTYPE_SUCCESS, profilePath } from "@utils/constants"
 import toastify from "@utils/tostify"
 
 const CreatePrompt = () => {
@@ -32,7 +32,7 @@ const CreatePrompt = () => {
             })
             if (response.ok) {
                 toastify("Prompt created!", TOASTTYPE_SUCCESS, submitBtn)
-                router.push(homePath)
+                router.push(profilePath)
             }
             else throw Error(await response.text())
         }
