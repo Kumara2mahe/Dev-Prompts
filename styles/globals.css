@@ -138,6 +138,37 @@
     @apply font-semibold text-gray-600 mt-6 mb-8 border-gray-200 border focus:border-purple-300;
 }
 
+/* Pulse Component */
+#pulse-bar {
+    @apply w-full bg-gray-400 flex-center h-1 fixed inset-x-0 top-0 z-20;
+}
+
+@keyframes pulsate {
+    50% {
+        width: 100%
+    }
+
+    0%,
+    100% {
+        width: 40px;
+    }
+}
+
+.pb_slider {
+    animation: pulsate 1.2s ease-in-out infinite;
+    @apply h-full w-10 rounded-lg bg-gradient-to-r from-cyan-200 via-teal-500 to-cyan-200 absolute transition-colors;
+}
+
+.first_slider {
+    animation-delay: 0.6s;
+    @apply from-cyan-200 via-teal-500 to-cyan-200 z-10;
+}
+
+.second_slider {
+    animation-delay: 0s;
+    @apply from-amber-200 via-teal-500 to-amber-200 z-0;
+}
+
 /* Nav Component */
 .logo_text {
     @apply max-sm:hidden font-satoshi font-semibold text-lg text-black tracking-wide;
