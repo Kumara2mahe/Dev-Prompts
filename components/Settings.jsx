@@ -4,6 +4,7 @@ import { useSession } from "next-auth/react"
 import { useState, useEffect } from "react"
 
 import DialogBox, { closeDialog, getDialog } from "./DialogBox"
+import SubmitButtonLoader from "./formInputs/SubmitButtonLoader"
 import toastify from "@utils/tostify"
 import { TOASTTYPE_ERROR, TOASTTYPE_SUCCESS } from "@utils/constants"
 
@@ -12,6 +13,7 @@ const Settings = ({ privacy, preference }) => {
     const [emailPrivacy, setEmailPrivacy] = useState(false)
     const [showUsername, setShowUsername] = useState(false)
     const [username, setUsername] = useState("")
+    const [submitting, setSubmitting] = useState(false)
 
     useEffect(() => {
         privacy?.hideEmail && setEmailPrivacy(true)
@@ -53,6 +55,8 @@ const Settings = ({ privacy, preference }) => {
         e.preventDefault()
         const submitBtn = e.target.querySelector("button[type=submit]")
         submitBtn.disabled = true
+        setSubmitting(true)
+
         try {
             const response = await fetch(`/api/users/${session.user.id}/settings`, {
                 method: "POST",
@@ -79,6 +83,9 @@ const Settings = ({ privacy, preference }) => {
         }
         catch (error) {
             toastify(error?.message, TOASTTYPE_ERROR, submitBtn, settingsDialog)
+        }
+        finally {
+            setSubmitting(false)
         }
     }
     return session?.user.id && (<>
@@ -108,7 +115,9 @@ const Settings = ({ privacy, preference }) => {
                 </label>}
                 <div className="flex-between mt-8">
                     <button type="button" className="gray_outline_btn" onClick={resetFormAndClose} data-parent-id={settingsDialog}>Cancel</button>
-                    <button type="submit" className="green_outline_btn">Save</button>
+                    <button type="submit" className="green_outline_btn">
+                        <SubmitButtonLoader submitting={submitting} submitBtnText="Save" />
+                    </button>
                 </div>
             </form>
         </DialogBox>

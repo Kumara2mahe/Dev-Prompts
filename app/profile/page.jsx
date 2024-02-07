@@ -8,6 +8,7 @@ import ErrorPage from "next/error"
 import PulseBar from "@components/PulseBar"
 import UserProfile from "@components/UserProfile"
 import DialogBox, { closeDialog, getDialog } from "@components/DialogBox"
+import SubmitButtonLoader from "@components/formInputs/SubmitButtonLoader"
 import {
     updatePromptPath,
     TOASTTYPE_ERROR, TOASTTYPE_SUCCESS
@@ -19,6 +20,7 @@ const Profile = () => {
     const router = useRouter()
     const [prompts, setPrompts] = useState([])
     const [confirmation, setConfirmation] = useState("")
+    const [submitting, setSubmitting] = useState(false)
 
     useEffect(() => {
         const fetchPrompts = async () => {
@@ -41,6 +43,8 @@ const Profile = () => {
         e.preventDefault()
         const submitBtn = e.target.querySelector("button[type=submit]")
         submitBtn.disabled = true
+        setSubmitting(true)
+
         try {
             const dialog = getDialog(e.target)
             const response = await fetch(`/api/prompt/${prompt.id}`, {
@@ -63,6 +67,9 @@ const Profile = () => {
         }
         catch (error) {
             toastify(error?.message, TOASTTYPE_ERROR, submitBtn, deletePromptDialog)
+        }
+        finally {
+            setSubmitting(false)
         }
     }
 
@@ -90,7 +97,9 @@ const Profile = () => {
                         <input className="form_input form_delete_input" name="confirmdelete" type="text" required onChange={e => setConfirmation(e.target.value)} autoComplete="off" />
                         <div className="flex-between">
                             <button type="button" className="gray_outline_btn" onClick={closeDialog} data-parent-id={deletePromptDialog}>Cancel</button>
-                            <button type="submit" className="red_outline_btn" disabled={confirmation !== confirmationPhrase}>Delete</button>
+                            <button type="submit" className="red_outline_btn" disabled={confirmation !== confirmationPhrase}>
+                                <SubmitButtonLoader submitting={submitting} submitBtnText="Delete" />
+                            </button>
                         </div>
                     </form>
                 </DialogBox>
