@@ -2,12 +2,12 @@ import { ToastContainer, Flip } from "react-toastify"
 
 import { TOASTTIMER } from "@utils/constants"
 
-const DialogBox = ({ children, classNames, id }) => {
+const DialogBox = ({ children, classNames, id, customCloseEvent }) => {
     return (
         <dialog id={id} className={`popup_dialog ${classNames ? classNames : ""}`}>
             <div className="py-6 px-6">
                 <div className="text-right">
-                    <button type="button" className="close-btn" onClick={closeDialog} data-parent-id={id}>
+                    <button type="button" className="close-btn" onClick={customCloseEvent ? customCloseEvent : closeDialog} data-parent-id={id}>
                         <svg className="rounded-full group" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <g>
                                 <path className="fill-gray-400 opacity-40 group-hover:opacity-60 group-active:fill-orange-500" d="M14.34 -0.000244141H5.67C2.28 -0.000244141 0 2.37976 0 5.91976V14.0898C0 17.6198 2.28 19.9998 5.67 19.9998H14.34C17.73 19.9998 20 17.6198 20 14.0898V5.91976C20 2.37976 17.73 -0.000244141 14.34 -0.000244141Z" />

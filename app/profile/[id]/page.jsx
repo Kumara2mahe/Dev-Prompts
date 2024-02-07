@@ -30,7 +30,11 @@ const Profile = ({ params }) => {
 
     const [name, setName] = useState("")
     useEffect(() => {
-        userPrompts.length > 0 && setName(userPrompts[0].creator.name)
+        userPrompts.length > 0 && setName(
+            userPrompts[0].creator.preference?.customUsername && userPrompts[0].creator.preference.username !== ""
+                ? userPrompts[0].creator.preference.username
+                : userPrompts[0].creator.name
+        )
     }, [userPrompts])
     return (
         <UserProfile

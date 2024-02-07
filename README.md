@@ -31,7 +31,17 @@
 
 - **Responsive Website**: Develop a fully responsive website to ensure optimal user experience across various devices, from desktops to smartphones
 
-and many more, including code architecture and reusability 
+and many more, including code architecture and reusability
+
+## New Features
+
+- **Profile Settings**
+    - **Privacy**: User can now hide their email address from displaying on the prompts they created.
+    - **Preference**: Option to change a custom username instead of Social account's username which they used to authenticate.
+
+- **Custom Confirm Dialog To Delete Prompt**: An custom dialog box will now popup when user try to delete their own prompt, with a form to ask confirmation before delete like in github while try to delete a repositary.
+
+- **Clear Search**: Users can now clear their search with a single click and revert to intial state.
 
 ## Quick Start
 

@@ -22,10 +22,10 @@ const PromptCard = ({ prompt, handleTagClick, handleEdit, handleDelete }) => {
         }, 3000)
     }
     const handleProfileClick = () => {
-        if (prompt.creator._id === session?.user.id) {
+        if (prompt.creator.id === session?.user.id) {
             return router.push(profilePath)
         }
-        router.push(`/profile/${prompt.creator._id}`)
+        router.push(`/profile/${prompt.creator.id}`)
     }
     return (
         <div className="prompt_card glassmorphism">
@@ -39,10 +39,18 @@ const PromptCard = ({ prompt, handleTagClick, handleEdit, handleDelete }) => {
                         height={40}
                     />
                     <div className="flex flex-col overflow-hidden">
-                        <h3 className="font-satoshi font-semibold text-gray-900 text-wrap">{prompt.creator.name}</h3>
+                        <h3 className="font-satoshi font-semibold text-gray-900 text-wrap">{
+                            prompt.creator.preference?.customUsername && prompt.creator.preference.username !== ""
+                                ? prompt.creator.preference.username
+                                : prompt.creator.name
+                        }</h3>
                         {session?.user.id
-                            ? <h3 className="font-inter text-sm text-gray-500 text-ellipsis overflow-hidden" title={prompt.creator.email}>{prompt.creator.email}</h3>
-                            : <h3 className="font-inter text-sm text-gray-500 text-ellipsis overflow-hidden" title="Only visible to authenticated users!">{prompt.creator.email.slice(0, 3) + "*****@devprompts.in"}</h3>
+                            ? <h3 className="font-inter text-sm text-gray-500 text-ellipsis overflow-hidden" title={
+                                prompt.creator.privacy?.hideEmail
+                                    ? `${session?.user.id === prompt.creator.id ? "You" : "User"} turned off email visibility to private`
+                                    : prompt.creator.email
+                            }>{prompt.creator.email}</h3>
+                            : <h3 className="font-inter text-sm text-gray-500 text-ellipsis overflow-hidden" title="Only visible to authenticated users!">{prompt.creator.email.slice(0, 3) + "****@devprompts.in"}</h3>
                         }
                     </div>
                 </div>
@@ -57,7 +65,7 @@ const PromptCard = ({ prompt, handleTagClick, handleEdit, handleDelete }) => {
             </div>
             <p className="my-4 p-4 font-satoshi text-sm text-gray-700 bg-white/80 rounded-lg select-text selection:bg-[#5ECFC3] selection:text-white">{prompt.snippet}</p>
             <button className="font-inter text-sm blue-gradient cursor-pointer" onClick={handleTagClick}>#{prompt.tag}</button>
-            {session?.user.id === prompt.creator._id && pathName === "/profile"
+            {session?.user.id === prompt.creator.id && pathName === "/profile"
                 && (
                     <div className="mt-5 flex-between gap-4 border-t border-gray-100 pt-3">
                         <button className="font-inter text-sm greeny_blue_gradient cursor-pointer" onClick={handleEdit}>Edit</button>

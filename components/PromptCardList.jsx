@@ -10,7 +10,7 @@ const PromptCardList = ({ data, handleTagClick, handleEdit, handleDelete }) => {
                 ? <div className="mt-16 prompt_layout gradient_prompt_card">
                     {data.map(prompt => (
                         <PromptCard
-                            key={prompt._id}
+                            key={prompt.id}
                             prompt={prompt}
                             handleTagClick={() => handleTagClick && handleTagClick(prompt.tag)}
                             handleEdit={() => handleEdit && handleEdit(prompt)}

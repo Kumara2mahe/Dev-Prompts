@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import ErrorPage from "next/error"
 
+import PulseBar from "@components/PulseBar"
 import UserProfile from "@components/UserProfile"
 import DialogBox, { closeDialog, getDialog } from "@components/DialogBox"
 import {
@@ -34,7 +35,7 @@ const Profile = () => {
     }, [session])
 
     const handleEdit = (prompt) => {
-        router.push(updatePromptPath.replace("%s", prompt._id))
+        router.push(updatePromptPath.replace("%s", prompt.id))
     }
     const handleDelete = async (e, prompt) => {
         e.preventDefault()
@@ -42,7 +43,7 @@ const Profile = () => {
         submitBtn.disabled = true
         try {
             const dialog = getDialog(e.target)
-            const response = await fetch(`/api/prompt/${prompt._id}`, {
+            const response = await fetch(`/api/prompt/${prompt.id}`, {
                 method: "DELETE",
                 body: JSON.stringify({
                     userId: session.user.id,
@@ -50,7 +51,7 @@ const Profile = () => {
                 })
             })
             if (response.ok) {
-                const remainingPrompts = prompts.filter(p => p._id !== prompt._id)
+                const remainingPrompts = prompts.filter(p => p.id !== prompt.id)
                 setPrompts(remainingPrompts)
                 if (dialog) {
                     closeDialog(null, dialog)
@@ -65,11 +66,19 @@ const Profile = () => {
         }
     }
 
-    return status !== "loading" && (
-        status === "authenticated" && session?.user.id
+    const [name, setName] = useState("")
+    useEffect(() => {
+        prompts.length > 0 && setName(
+            prompts[0].creator.preference?.customUsername && prompts[0].creator.preference.username !== ""
+                ? prompts[0].creator.preference.username
+                : session?.user.name
+        )
+    }, [prompts])
+    return status !== "loading"
+        ? (status === "authenticated" && session?.user.id
             ? <>
                 <UserProfile
-                    name={session?.user.name}
+                    name={name}
                     desc="Welcome! to the personalized profile page, from here you can view/manage your prompts."
                     data={prompts}
                     handleEdit={handleEdit}
@@ -87,7 +96,8 @@ const Profile = () => {
                 </DialogBox>
             </>
             : <ErrorPage statusCode={401} title="Authentication required" />
-    )
+        )
+        : <PulseBar />
 }
 const deletePromptDialog = "deleteprompt-dialog"
 const confirmationPhrase = "delete prompt"
