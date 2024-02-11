@@ -30,7 +30,7 @@ const Feed = () => {
     const searchParams = useSearchParams()
     const qTag = searchParams.get("qTag")
     useEffect(() => {
-        if (emptyPrompt.current === null && prompts.length > 0) {
+        if (emptyPrompt.current === null && prompts?.length > 0) {
             emptyPrompt.current = prompts.length
             qTag && setTimeout(() => handleTagClick(qTag), 500)
         }
@@ -64,7 +64,8 @@ const Feed = () => {
                     type="text"
                     placeholder="Search for a tag or a name"
                     value={searchText}
-                    onChange={handleSearchChange}
+                    onChange={prompts?.length > 0 ? handleSearchChange : () => { }}
+                    disabled={prompts?.length > 0 === false}
                 />
                 {clearButton && <button className="rounded-full absolute inset-y right-2 z-[2]" id="clear-btn" onClick={() => setSearchText("")}>
                     <svg className="rounded-full group" width="24" height="24" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -81,7 +82,7 @@ const Feed = () => {
 }
 const filterPrompts = (searchtext, allPrompts, by = "") => {
     const regex = new RegExp(searchtext, "i")
-    return allPrompts.filter((item) => {
+    return allPrompts?.filter((item) => {
         if (by === "tag") {
             return regex.test(item.tag)
         }

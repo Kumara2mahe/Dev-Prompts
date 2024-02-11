@@ -27,18 +27,9 @@ const Profile = ({ params }) => {
         }
         params?.id && fetchPrompts()
     }, [params.id])
-
-    const [name, setName] = useState("")
-    useEffect(() => {
-        userPrompts.length > 0 && setName(
-            userPrompts[0].creator.preference?.customUsername && userPrompts[0].creator.preference.username !== ""
-                ? userPrompts[0].creator.preference.username
-                : userPrompts[0].creator.name
-        )
-    }, [userPrompts])
     return (
         <UserProfile
-            name={name}
+            userid={params.id}
             desc="Explore prompts and be inspired by the power of their creativity."
             data={userPrompts}
         />

@@ -76,6 +76,7 @@ Create a new file named `.env` in the root of your project and add the following
 
 ```env
 DATABASE_URI="mongodb+srv://<username>:<password@<domain>/?retryWrites=true&w=majority"
+DATABASE_NAME="<database-name>"
 
 NEXTAUTH_URL="http://localhost:3000"
 NEXTAUTH_URL_INTERNAL="http://localhost:3000"

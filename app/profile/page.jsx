@@ -72,37 +72,30 @@ const Profile = () => {
             setSubmitting(false)
         }
     }
-
-    const [name, setName] = useState("")
-    useEffect(() => {
-        prompts.length > 0 && setName(
-            prompts[0].creator.preference?.customUsername && prompts[0].creator.preference.username !== ""
-                ? prompts[0].creator.preference.username
-                : session?.user.name
-        )
-    }, [prompts])
     return status !== "loading"
         ? (status === "authenticated" && session?.user.id
             ? <>
                 <UserProfile
-                    name={name}
+                    userid={session?.user.id}
                     desc="Welcome! to the personalized profile page, from here you can view/manage your prompts."
                     data={prompts}
                     handleEdit={handleEdit}
                     handleDelete={handleDelete}
                 />
-                <DialogBox id={deletePromptDialog}>
-                    <p className="desc mt-10 mb-35">To confirm, type "<span className="orange_gradient selection:bg-[#5ECFC3] selection:text-white">{confirmationPhrase}</span>" in the box below</p>
-                    <form id="deleteprompt" method="dialog" className="flex-col" data-parent-id={deletePromptDialog}>
-                        <input className="form_input form_delete_input" name="confirmdelete" type="text" required onChange={e => setConfirmation(e.target.value)} autoComplete="off" />
-                        <div className="flex-between">
-                            <button type="button" className="gray_outline_btn" onClick={closeDialog} data-parent-id={deletePromptDialog}>Cancel</button>
-                            <button type="submit" className="red_outline_btn" disabled={confirmation !== confirmationPhrase}>
-                                <SubmitButtonLoader submitting={submitting} submitBtnText="Delete" />
-                            </button>
-                        </div>
-                    </form>
-                </DialogBox>
+                {prompts?.length > 0 &&
+                    <DialogBox id={deletePromptDialog}>
+                        <p className="desc mt-10 mb-35">To confirm, type "<span className="orange_gradient selection:bg-[#5ECFC3] selection:text-white">{confirmationPhrase}</span>" in the box below</p>
+                        <form id="deleteprompt" method="dialog" className="flex-col" data-parent-id={deletePromptDialog}>
+                            <input className="form_input form_delete_input" name="confirmdelete" type="text" required onChange={e => setConfirmation(e.target.value)} autoComplete="off" />
+                            <div className="flex-between">
+                                <button type="button" className="gray_outline_btn" onClick={closeDialog} data-parent-id={deletePromptDialog}>Cancel</button>
+                                <button type="submit" className="red_outline_btn" disabled={confirmation !== confirmationPhrase}>
+                                    <SubmitButtonLoader submitting={submitting} submitBtnText="Delete" />
+                                </button>
+                            </div>
+                        </form>
+                    </DialogBox>
+                }
             </>
             : <ErrorPage statusCode={401} title="Authentication required" />
         )
