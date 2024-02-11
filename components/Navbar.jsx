@@ -6,6 +6,7 @@ import { useState, useEffect } from "react"
 import { signIn, signOut, useSession, getProviders } from "next-auth/react"
 
 import { homePath, createPromptPath, profilePath } from "@utils/constants"
+import DialogBox, { openDialog } from "./DialogBox"
 
 const Navbar = () => {
     const { data: session } = useSession()
@@ -19,8 +20,8 @@ const Navbar = () => {
         })()
     }, [])
 
-    const ProviderButtons = () => (
-        providers && <button className="black_btn" type="button" onClick={() => signIn()}>Sign In</button>
+    const SignInButton = () => (
+        <button className="black_btn" type="button" onClick={openDialog} data-parent-id={signInDialog}>Sign In</button>
     )
     return (
         <div className="flex-between w-full mb-16 pt-6">
@@ -37,7 +38,7 @@ const Navbar = () => {
                                 <Image className="rounded-full" src={session.user.image && session.user.image != "" ? session.user.image : "/assets/icons/placeholder.png"} alt="profile" width={38} height={38} />
                             </Link>
                         </div>
-                    ) : <ProviderButtons />
+                    ) : <SignInButton />
                 }
             </div>
 
@@ -57,10 +58,24 @@ const Navbar = () => {
                                 </div>
                             )}
                         </div>
-                    ) : <ProviderButtons />
+                    ) : <SignInButton />
                 }
             </div>
+            {providers &&
+                <DialogBox id={signInDialog}>
+                    <form id="signin" method="dialog" className="flex flex-col select-none" data-parent-id={signInDialog}>
+                        <div className="flex flex-col justify-center items-center mb-6">
+                            {providers && Object.values(providers).map((provider) => (
+                                <button className={`signin_btn ${provider.id}`} type="button" key={provider.name} onClick={() => signIn(provider.id)}>
+                                    <span className="btn_text"><span className="max-[480px]:hidden">Continue with</span> {provider.name}</span>
+                                </button>
+                            ))}
+                        </div>
+                    </form>
+                </DialogBox>
+            }
         </div>
     )
 }
+const signInDialog = "signin-dialog"
 export default Navbar
