@@ -8,7 +8,13 @@ export const GET = async (req, { params }) => {
         if (!prompt) {
             return new Response("Prompt not found", { status: 404 })
         }
-        return new Response(JSON.stringify(prompt), { status: 200 })
+        return new Response(
+            JSON.stringify({
+                snippet: prompt.snippet,
+                tags: prompt.tags
+            }),
+            { status: 200 }
+        )
     }
     catch (error) {
         return new Response("Failed to fetch prompt", { status: 500 })
@@ -16,7 +22,7 @@ export const GET = async (req, { params }) => {
 }
 
 export const PATCH = async (req, { params }) => {
-    const { userId, snippet, tag } = await req.json()
+    const { userId, snippet, tags } = await req.json()
     try {
         await connectToDB()
         const prompt = await Prompt.findById(params.id)
@@ -26,8 +32,14 @@ export const PATCH = async (req, { params }) => {
         else if (prompt.creator._id.toString() !== userId) {
             return new Response("Failed to update prompt, only creator can perform such operation.", { status: 400 })
         }
-        prompt.snippet = snippet
-        prompt.tag = tag
+
+        // Sanitize values
+        const sSnippet = snippet.trim()
+        const sTags = tags.filter(tag => tag !== "")
+
+        // Update prompt
+        prompt.snippet = sSnippet
+        prompt.tags = sTags
         await prompt.save()
         return new Response(JSON.stringify(prompt), { status: 200 })
     }

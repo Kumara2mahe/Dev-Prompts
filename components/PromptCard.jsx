@@ -30,7 +30,7 @@ const PromptCard = ({ prompt, handleTagClick, handleEdit, handleDelete }) => {
     return (
         <div className="prompt_card glassmorphism">
             <div className="flex justify-between items-start gap-5">
-                <div className="flex-1 flex flex-wrap sm:flex-nowrap justify-start items-center gap-3 cursor-pointer max-w-60" onClick={handleProfileClick}>
+                <div className="flex-1 flex flex-wrap sm:flex-nowrap justify-start items-center gap-3 cursor-pointer max-w-[50vw] min-[400px]:max-w-60" onClick={handleProfileClick}>
                     <Image
                         className="rounded-full object-contain"
                         src={prompt.creator.image && prompt.creator.image != "" ? prompt.creator.image : "/assets/icons/placeholder.png"}
@@ -64,7 +64,13 @@ const PromptCard = ({ prompt, handleTagClick, handleEdit, handleDelete }) => {
                 </button>
             </div>
             <p className="my-4 p-4 font-satoshi text-sm text-gray-700 bg-white/80 rounded-lg select-text selection:bg-[#5ECFC3] selection:text-white">{prompt.snippet}</p>
-            <button className="font-inter text-sm blue-gradient cursor-pointer" onClick={handleTagClick}>#{prompt.tag}</button>
+            <div className="flex items-center gap-1 flex-wrap mt-2">
+                {prompt.tags.map((tag, index) => (
+                    <button className="bg-teal-50 hover:bg-teal-100 text-gray-800 font-inter text-sm py-0.5 px-2 border border-green-100 rounded-xl shadow-sm cursor-pointer" onClick={() => handleTagClick(tag)} key={index}>
+                        <span className="">{tag}</span>
+                    </button>
+                ))}
+            </div>
             {session?.user.id === prompt.creator.id && pathName === "/profile"
                 && (
                     <div className="mt-5 flex-between gap-4 border-t border-gray-100 pt-3">

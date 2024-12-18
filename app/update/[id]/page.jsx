@@ -16,7 +16,7 @@ const UpdatePrompt = () => {
 
     const [fetched, setfetched] = useState(null)
     const [submitting, setSubmitting] = useState(false)
-    const [prompt, setPrompt] = useState({ snippet: "", tag: "" })
+    const [prompt, setPrompt] = useState({ snippet: "", tags: [] })
 
     useEffect(() => {
         (async () => {
@@ -42,7 +42,7 @@ const UpdatePrompt = () => {
                 body: JSON.stringify({
                     snippet: prompt.snippet,
                     userId: session.user.id,
-                    tag: prompt.tag
+                    tags: prompt.tags
                 })
             })
             if (response.ok) {

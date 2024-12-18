@@ -11,7 +11,7 @@ export const GET = async (req, { params }) => {
             let _prompt = {
                 id: prompt._id,
                 snippet: prompt.snippet,
-                tag: prompt.tag,
+                tags: prompt.tags,
                 creator: {
                     id: prompt.creator._id,
                     email: prompt.creator.email,

@@ -141,7 +141,7 @@
 }
 
 .prompt_layout {
-    @apply space-y-6 py-8 sm:columns-2 sm:gap-6 xl:columns-3;
+    @apply space-y-6 py-8 md:columns-2 md:gap-6 xl:columns-3;
 }
 
 /* Feed Component */
@@ -151,11 +151,11 @@
 
 /* Form Component */
 .form_textarea {
-    @apply w-full flex rounded-lg h-[200px] mt-2 p-3 text-sm text-gray-500 outline-0 bg-white;
+    @apply w-full flex rounded-lg h-[200px] mt-2 p-3 text-sm text-gray-800 outline-0 bg-white;
 }
 
 .form_input {
-    @apply w-full flex rounded-lg mt-2 p-3 text-sm text-gray-500 outline-0;
+    @apply w-full flex rounded-lg mt-2 p-3 text-sm text-gray-800 outline-0;
 }
 
 .form_delete_input {
@@ -212,7 +212,7 @@
 
 /* PromptCard Component */
 .prompt_card {
-    @apply flex-1 break-inside-avoid rounded-lg border border-gray-300 bg-white/20 bg-clip-padding p-6 pb-4 backdrop-blur-lg backdrop-filter md:w-[360px] w-full h-fit select-none;
+    @apply flex-1 break-inside-avoid rounded-lg border border-gray-300 bg-white/20 bg-clip-padding p-6 pb-5 backdrop-blur-lg backdrop-filter xl:w-[360px] w-full h-fit select-none;
 }
 
 /* Dialog Component */

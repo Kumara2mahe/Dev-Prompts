@@ -13,7 +13,7 @@ const CreatePrompt = () => {
     const router = useRouter()
 
     const [submitting, setSubmitting] = useState(false)
-    const [prompt, setPrompt] = useState({ snippet: "", tag: "" })
+    const [prompt, setPrompt] = useState({ snippet: "", tags: [] })
 
     const createNewPrompt = async (e) => {
         e.preventDefault()
@@ -27,7 +27,7 @@ const CreatePrompt = () => {
                 body: JSON.stringify({
                     snippet: prompt.snippet,
                     userId: session.user.id,
-                    tag: prompt.tag
+                    tags: prompt.tags
                 })
             })
             if (response.ok) {

@@ -30,9 +30,9 @@ const Feed = () => {
     const searchParams = useSearchParams()
     const qTag = searchParams.get("qTag")
     useEffect(() => {
+        qTag && handleTagClick(qTag)
         if (emptyPrompt.current === null && prompts?.length > 0) {
             emptyPrompt.current = prompts.length
-            qTag && setTimeout(() => handleTagClick(qTag), 500)
         }
     }, [prompts])
 
@@ -82,15 +82,16 @@ const Feed = () => {
 }
 const filterPrompts = (searchtext, allPrompts, by = "") => {
     const regex = new RegExp(searchtext, "i")
-    return allPrompts?.filter((item) => {
+    const results = allPrompts?.filter((item) => {
         if (by === "tag") {
-            return regex.test(item.tag)
+            return regex.test(item.tags)
         }
         else {
             return regex.test(item.creator.name) ||
-                regex.test(item.tag) ||
+                regex.test(item.tags) ||
                 regex.test(item.snippet)
         }
     })
+    return results.length > 0 ? results : null
 }
 export default Feed

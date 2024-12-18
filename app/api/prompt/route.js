@@ -8,12 +8,23 @@ export const GET = async () => {
     try {
         await connectToDB()
         const settings = await Settings.find({})
+
+        // Update 'tag' to 'tags'
+        const _prompts = await Prompt.find({ $or: [{ tags: null }, { tags: { $size: 0 } }] })
+        _prompts.map(async (prompt) => {
+            if (prompt.tags && prompt.tags.length > 0) {
+                return
+            }
+            prompt.tags = Array().concat(prompt.tag).concat(prompt.tags)
+            await prompt.save()
+        })
+
         const prompts = await Prompt.find({}).sort("-updatedAt").populate("creator")
         const filteredPrompts = prompts.map((prompt) => {
             let _prompt = {
                 id: prompt._id,
                 snippet: prompt.snippet,
-                tag: prompt.tag,
+                tags: prompt.tags,
                 creator: {
                     id: prompt.creator._id,
                     email: prompt.creator.email,
